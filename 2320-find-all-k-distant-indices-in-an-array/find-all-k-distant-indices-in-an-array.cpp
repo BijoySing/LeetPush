@@ -2,7 +2,7 @@ class Solution {
 public:
     vector<int> findKDistantIndices(vector<int>& nums, int key, int k) {
         vector<int> id, ans;
-        unordered_set<int>s;
+        set<int>s;
         for (int i = 0; i < nums.size(); i++) {
             if (nums[i] == key)
                 id.push_back(i);
