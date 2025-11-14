@@ -1,16 +1,20 @@
 class Solution {
 public:
     bool isPalindrome(string s) {
-        string s1 = "", s2;
-        for (int i = 0; i < s.size(); i++) {
-            s[i] = tolower(s[i]);
-             if(isalnum(s[i])){
-                s1+=s[i];
-            }
+         int sz=s.size();
+    string org="",rev;
+    for(int i=0;i<sz;i++){
+        s[i]=tolower(s[i]);
+        int x=s[i];
+        cout<<x<<endl;
+        if(isalnum(s[i])){
+            // s[i]=tolower(s[i]);
+            org+=s[i];
         }
-        s2=s1;
-        reverse(s1.begin(),s1.end());
-        cout<<s1<<endl<<s2;
-        return s1==s2;
+    }
+    cout<<org<<endl;
+    rev=org;
+    reverse(org.begin(),org.end());
+    return org==rev;
     }
 };
