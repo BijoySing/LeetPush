@@ -1,14 +1,17 @@
 class Solution {
 public:
-    vector<int> findDegrees(vector<vector<int>>& m) {
-        vector<int> ans;
-        for (auto u : m) {
-            int c = 0;
-            for (auto v : u) {
-                if (v)
-                    c++;
+    vector<int> findDegrees(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        vector<int> ans(n, 0);
+
+        for (int i = 0; i < n; i++) {
+            int degree = 0;
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == 1) {
+                    degree++;
+                }
             }
-            ans.push_back(c);
+            ans[i] = degree;
         }
         return ans;
     }
