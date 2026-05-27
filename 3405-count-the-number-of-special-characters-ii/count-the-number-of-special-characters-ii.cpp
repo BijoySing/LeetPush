@@ -1,21 +1,29 @@
 class Solution {
 public:
     int numberOfSpecialChars(string word) {
-        map<char, int> l, u;
+        vector<int> low(26, -1), upp(26, -1);
+
         for (int i = 0; i < word.size(); i++) {
-            int s = word[i];
-            if (s <= 90 and !u[word[i]]) {
-                u[word[i]] = i+1;
-            } else {
-                l[word[i]] = i+1;
+            char ch = word[i];
+
+            if (islower(ch)) {
+                low[ch - 'a'] = i;
+            } 
+            else if (upp[ch - 'A'] == -1) {
+                upp[ch - 'A'] = i;
             }
-        } int c=0;
-        for (auto [a, b] : u) {
-            char ch = tolower(a);
-            // cout<<a<<" "<<b<<endl;
-            // cout<<ch<< " "<<l[ch]<<endl;
-            if(l[ch] and l[ch]<b)c++;
         }
-        return c;
+
+        int cnt = 0;
+
+        for (int i = 0; i < 26; i++) {
+            if (low[i] != -1 &&
+                upp[i] != -1 &&
+                low[i] < upp[i]) {
+                cnt++;
+            }
+        }
+
+        return cnt;
     }
 };
