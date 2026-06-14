@@ -12,11 +12,11 @@ class Solution:
             slow = nxt
 
         ans = 0
-        left, rght = prev, slow
+        left, right = prev, slow
 
         while left:
-            ans = max(ans, left.val + rght.val)
+            ans = max(ans, left.val + right.val)
             left = left.next
-            rght = rght.next
+            right = right.next
 
         return ans
