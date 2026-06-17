@@ -2,40 +2,34 @@ class Solution {
 public:
     char processStr(string s, long long k) {
         long long len = 0;
-        for (auto c : s) {
-            if (c == '*') {
-                if (len) {
-                    len--;
-                }
-            } else if (c == '#') {
-                len *= 2;
-            } else if (c == '%') {
-                continue;
-            } else {
-                len++;
-            }
+
+        for (char c : s) {
+            if (c == '*') len = max(0LL, len - 1);
+            else if (c == '#') len *= 2;
+            else if (c != '%') len++;
         }
-        if (k + 1 > len) {
-            return '.';
-        }
+
+        if (k >= len) return '.';
+
         for (int i = s.size() - 1; i >= 0; i--) {
-            if (s[i] == '*') {
+            char c = s[i];
+
+            if (c == '*') {
                 len++;
-            } else if (s[i] == '#') {
-                if (k + 1 > (len + 1) / 2) {
-                    k -= len / 2;
-                }
-                len = (len + 1) / 2;
-            } else if (s[i] == '%') {
-                k = len - k - 1;
-            } else {
-                if (k + 1 == len) {
-                    return s[i];
-                } else {
-                    len--;
-                }
+            } 
+            else if (c == '#') {
+                if (k >= len / 2) k -= len / 2;
+                len /= 2;
+            } 
+            else if (c == '%') {
+                k = len - 1 - k;
+            } 
+            else {
+                if (k == len - 1) return c;
+                len--;
             }
         }
+
         return '.';
     }
 };
