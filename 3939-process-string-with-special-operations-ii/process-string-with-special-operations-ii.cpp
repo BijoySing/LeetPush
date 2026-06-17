@@ -1,35 +1,39 @@
-using ll=long long;
-constexpr int N=1e5;
-ll Len[N]={0};
 class Solution {
 public:
-    static char processStr(string& s, long long k) {
-        const int n=s.size();
-        ll L=0;
-        for(int i=0; i<n; i++){
-            const char c=s[i];
-            switch(c){
-                case '*': L-=(L>0); break;
-                case '#': L<<=1; break;
-                case '%': break;
-                default: L++;
+    char processStr(string s, long long k) {
+        long long len = 0;
+        for (auto c : s) {
+            if (c == '*') {
+                if (len) {
+                    len--;
+                }
+            } else if (c == '#') {
+                len *= 2;
+            } else if (c == '%') {
+                continue;
+            } else {
+                len++;
             }
-            Len[i]=L;
         }
-        if (L-1<k) return '.';
-        for(int i=n-1; i>=0; i--){
-            const char c=s[i];
-            L=Len[i];
-            if (L==0) continue;
-            switch(c){
-                case '*': break;
-                case '#': 
-                    if (k>=L/2) k-=L/2; break;
-                case '%':
-                    k=L-1-k; 
-                    break;
-                default:
-                    if (k==L-1) return c;
+        if (k + 1 > len) {
+            return '.';
+        }
+        for (int i = s.size() - 1; i >= 0; i--) {
+            if (s[i] == '*') {
+                len++;
+            } else if (s[i] == '#') {
+                if (k + 1 > (len + 1) / 2) {
+                    k -= len / 2;
+                }
+                len = (len + 1) / 2;
+            } else if (s[i] == '%') {
+                k = len - k - 1;
+            } else {
+                if (k + 1 == len) {
+                    return s[i];
+                } else {
+                    len--;
+                }
             }
         }
         return '.';
