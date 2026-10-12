@@ -1,29 +1,33 @@
+
 class Solution {
 public:
     int maxSum(vector<int>& nums, int k) {
-        const int MOD = 1e9 + 7;
-        vector<int> cnt(30, 0);
+        const long long MOD = 1e9 + 7;
+        vector<int> bits(31, 0);
 
-         for (int num : nums) {
-            for (int i = 0; i < 30; i++) {
-                if (num & (1 << i)) {
-                    cnt[i]++;
+        for (int num : nums) {
+            for (int b = 0; b < 31; b++) {
+                if (num & (1 << b)) {
+                    bits[b]++;
                 }
             }
         }
 
-        long long res = 0;
+        long long ans = 0;
+
         for (int i = 0; i < k; i++) {
-            long long cur = 0;
-              for (int j = 29; j >= 0; j--) {
-                if (cnt[j] > 0) {
-                    cur |= (1LL << j);
-                    cnt[j]--;
+            long long x = 0;
+
+            for (int b = 0; b < 31; b++) {
+                if (bits[b] > 0) {
+                    x |= (1LL << b);
+                    bits[b]--;
                 }
             }
-            res = (res + cur * cur) % MOD;
+
+            ans = (ans + x * x) % MOD;
         }
 
-        return (int)res;
+        return ans;
     }
 };
