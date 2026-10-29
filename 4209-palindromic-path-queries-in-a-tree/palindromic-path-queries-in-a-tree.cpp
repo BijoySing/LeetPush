@@ -4,9 +4,6 @@ class Solution {
     vector<int> tin, tout, dep, bit;
     string s;
 
-    void add(int i, int x) {
-        for (; i <= n; i += i & -i) bit[i] ^= x;
-    }
 
     int sum(int i) {
         int x = 0;
@@ -15,9 +12,10 @@ class Solution {
     }
 
     void update(int u, int x) {
-        add(tin[u], x);
-        add(tout[u] + 1, x);
-    }
+    for (int i : {tin[u], tout[u] + 1})
+        for (; i <= n; i += i & -i)
+            bit[i] ^= x;
+}
 
     void dfs(int u, int p) {
         tin[u] = ++timer;
