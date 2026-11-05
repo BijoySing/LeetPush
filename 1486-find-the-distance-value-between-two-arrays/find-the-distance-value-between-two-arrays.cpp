@@ -1,19 +1,17 @@
 class Solution {
 public:
     int findTheDistanceValue(vector<int>& arr1, vector<int>& arr2, int d) {
-        int ans = 0;
+        sort(arr1.begin(), arr1.end());
+        sort(arr2.begin(), arr2.end());
+
+        int ans = 0, j = 0;
 
         for (int x : arr1) {
-            bool valid = true;
+            while (j < arr2.size() && arr2[j] < x - d)
+                j++;
 
-            for (int y : arr2) {
-                if (abs(x - y) <= d) {
-                    valid = false;
-                    break;
-                }
-            }
-
-            if (valid) ans++;
+            if (j == arr2.size() || arr2[j] > x + d)
+                ans++;
         }
 
         return ans;
