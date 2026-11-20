@@ -3,12 +3,11 @@ class Solution {
 public:
     vector<int> ans;
 
-    void dfs(int u, vector<vector<int>>& adj, string& s, vector<int>& p,
-             vector<int>& last) {
+    void dfs(int u, vector<vector<int>>& adj, string& s,
+             vector<int>& p, vector<int>& last) {
         int c = s[u] - 'a', old = last[c];
 
-        if (u)
-            p[u] = old == -1 ? p[u] : old;
+        if (u && old != -1) p[u] = old;
         last[c] = u;
 
         for (int v : adj[u])
@@ -17,11 +16,11 @@ public:
         last[c] = old;
     }
 
-    int calc(int u, vector<vector<int>>& adj) {
-        int sz = 1;
-        for (int v : adj[u])
-            sz += calc(v, adj);
-        return ans[u] = sz;
+    int calc(int u, vector<vector<int>>& tree) {
+        ans[u] = 1;
+        for (int v : tree[u])
+            ans[u] += calc(v, tree);
+        return ans[u];
     }
 
     vector<int> findSubtreeSizes(vector<int>& p, string s) {
