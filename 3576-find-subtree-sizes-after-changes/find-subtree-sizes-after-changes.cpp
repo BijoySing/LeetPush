@@ -1,52 +1,44 @@
 
 class Solution {
 public:
-    vector<int> answer;
+    vector<int> ans;
 
-    void findParent(int u, vector<vector<int>>& adj, string& s,
-                    vector<int>& parent, vector<int>& last) {
+    void dfs(int u, vector<vector<int>>& adj, string& s, vector<int>& p,
+             vector<int>& last) {
+        int c = s[u] - 'a', old = last[c];
 
-        int c = s[u] - 'a';
-        int old = last[c];
-
-        if (u != 0 && old != -1)
-            parent[u] = old;
-
+        if (u)
+            p[u] = old == -1 ? p[u] : old;
         last[c] = u;
 
         for (int v : adj[u])
-            findParent(v, adj, s, parent, last);
+            dfs(v, adj, s, p, last);
 
         last[c] = old;
     }
 
-    int dfs(int u, vector<vector<int>>& adj) {
+    int calc(int u, vector<vector<int>>& adj) {
         int sz = 1;
-
         for (int v : adj[u])
-            sz += dfs(v, adj);
-
-        return answer[u] = sz;
+            sz += calc(v, adj);
+        return ans[u] = sz;
     }
 
-    vector<int> findSubtreeSizes(vector<int>& parent, string s) {
-        int n = parent.size();
-
+    vector<int> findSubtreeSizes(vector<int>& p, string s) {
+        int n = p.size();
         vector<vector<int>> adj(n), tree(n);
 
         for (int i = 1; i < n; i++)
-            adj[parent[i]].push_back(i);
+            adj[p[i]].push_back(i);
 
         vector<int> last(26, -1);
-
-        findParent(0, adj, s, parent, last);
+        dfs(0, adj, s, p, last);
 
         for (int i = 1; i < n; i++)
-            tree[parent[i]].push_back(i);
+            tree[p[i]].push_back(i);
 
-        answer.resize(n);
-        dfs(0, tree);
-
-        return answer;
+        ans.resize(n);
+        calc(0, tree);
+        return ans;
     }
 };
