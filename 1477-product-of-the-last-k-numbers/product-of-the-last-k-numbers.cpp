@@ -1,16 +1,14 @@
 class ProductOfNumbers {
-    vector<long long> prefix = {1};
+    vector<int> pref{1};
 
 public:
     void add(int num) {
-        if (num == 0)
-            prefix = {1};
-        else
-            prefix.push_back(prefix.back() * num);
+        if (num == 0) pref = {1};
+        else pref.push_back(pref.back() * num);
     }
 
     int getProduct(int k) {
-        int n = prefix.size();
-        return k >= n ? 0 : prefix.back() / prefix[n - k - 1];
+        int n = pref.size();
+        return k >= n ? 0 : pref[n - 1] / pref[n - k - 1];
     }
 };
