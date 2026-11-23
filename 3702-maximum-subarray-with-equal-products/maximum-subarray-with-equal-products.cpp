@@ -5,15 +5,17 @@ public:
         int n = nums.size(), ans = 0;
 
         for (int l = 0; l < n; l++) {
-            int g = 0, lc = 1;
-            long double inv = 1;
+            int gcdVal = nums[l], lcmVal = nums[l];
+            double inv = 1.0 / nums[l];
 
             for (int r = l; r < n; r++) {
-                g = gcd(g, nums[r]);
-                lc = lcm(lc, nums[r]);
-                inv /= nums[r];
+                if (r > l) {
+                    gcdVal = gcd(gcdVal, nums[r]);
+                    lcmVal = lcm(lcmVal, nums[r]);
+                    inv /= nums[r];
+                }
 
-                if (g * 1LL * lc * inv > 0.99999999)
+                if (gcdVal * 1LL * lcmVal * inv > 0.99999999)
                     ans = max(ans, r - l + 1);
             }
         }
