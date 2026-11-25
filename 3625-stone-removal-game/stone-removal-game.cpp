@@ -1,16 +1,9 @@
-
 class Solution {
 public:
     bool canAliceWin(int n) {
-        int stones = 10;
-        bool alice = true;
-
-        while (n >= stones) {
-            n -= stones;
-            stones--;
-            alice = !alice;
-        }
-
-        return !alice;
+        return (n >= 10 && n < 19) ||
+               (n >= 27 && n < 34) ||
+               (n >= 40 && n < 45) ||
+               (n >= 49 && n <= 50);
     }
 };
